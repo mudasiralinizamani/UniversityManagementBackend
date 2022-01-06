@@ -17,7 +17,7 @@ public class AuthController : ControllerBase
   [Route("Signup")]
   public async Task<ActionResult> Signup(SignupDto dto)
   {
-    if (dto.Role != "ADMIN" && dto.Role != "STUDENT" && dto.Role != "HOD" && dto.Role != "DEAN" && dto.Role != "COURSEADVISER" && dto.Role != "TEACHER")
+    if (dto.Role != "Admin" && dto.Role != "Student" && dto.Role != "HeadOfDepartment" && dto.Role != "Dean" && dto.Role != "CourseAdviser" && dto.Role != "Teacher")
     {
       return BadRequest(new { code = "InvalidRole", error = "Role does not exists" });
     }
@@ -60,14 +60,14 @@ public class AuthController : ControllerBase
 
     if (user is null)
     {
-      return BadRequest(new { code = "UserNotFound", error = "User does not exists" });
+      return BadRequest(new { code = "UserNotFound", error = "Email address is not found" });
     }
 
     var password = await _userManager.CheckPasswordAsync(user, dto.Password);
 
-    if (password!)
+    if (!password)
     {
-      return BadRequest(new { code = "IncorrectPasssword", error = "Password is incorrect" });
+      return BadRequest(new { code = "IncorrectPassword", error = "Password is incorrect" });
     }
 
     return Ok(user);
