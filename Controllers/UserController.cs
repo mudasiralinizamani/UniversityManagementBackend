@@ -36,7 +36,7 @@ public class UserController : ControllerBase
   [Route("GetUsersInRole/{role}")]
   public async Task<ActionResult<IEnumerable<UserModel>>> GetUsersInRole(string role)
   {
-    if (role != "Admin" && role != "Dean" && role != "Student" && role != "HeadOfDepartment" && role != "CourseAdviser" && role != "Teacher")
+    if (role != "Admin" && role != "Dean" && role != "Student" && role != "Hod" && role != "CourseAdviser" && role != "Teacher")
       return BadRequest(new { code = "RoleNotFound", error = "Role is not found" });
 
     IEnumerable<UserModel> users = await _userManager.GetUsersInRoleAsync(role);

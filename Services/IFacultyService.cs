@@ -8,20 +8,16 @@ public class IFacultyService : IFaculty
   {
     _context = context;
   }
-  public async Task CreateFacultyAsync(FacultyModel? model)
+  public async Task CreateFacultyAsync(FacultyModel model)
   {
-    if (model is null)
-      throw new ArgumentNullException();
-
+    ArgumentNullException.ThrowIfNull(model);
     await _context.faculties.AddAsync(model);
     await _context.SaveChangesAsync();
   }
 
-  public void DeleteFaculty(FacultyModel? model)
+  public void DeleteFaculty(FacultyModel model)
   {
-    if (model is null)
-      throw new ArgumentNullException();
-
+    ArgumentNullException.ThrowIfNull(model);
     _context.faculties.Remove(model);
     _context.SaveChanges();
   }
@@ -31,19 +27,15 @@ public class IFacultyService : IFaculty
     return (await _context.faculties.ToListAsync());
   }
 
-  public async Task<FacultyModel?> GetFacultyByIdAsync(Guid? id)
+  public async Task<FacultyModel?> GetFacultyByIdAsync(Guid id)
   {
-    if (id is null)
-      throw new ArgumentNullException();
-
+    ArgumentNullException.ThrowIfNull(id);
     return (await _context.faculties.FindAsync(id));
   }
 
-  public async Task<FacultyModel?> GetFacultyByNameAsync(string? name)
+  public async Task<FacultyModel?> GetFacultyByNameAsync(string name)
   {
-    if (name is null)
-      throw new ArgumentNullException();
-
+    ArgumentNullException.ThrowIfNull(name);
     return (await _context.faculties.FirstOrDefaultAsync(x => x.Name == name));
   }
 }

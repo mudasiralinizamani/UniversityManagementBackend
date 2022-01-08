@@ -66,16 +66,20 @@ public class FacultyController : ControllerBase
 
   [HttpGet]
   [Route("GetFaculty/{id}")]
-  public async Task<ActionResult<FacultyModel>> GetFaculty(Guid? id)
+  public async Task<ActionResult<FacultyModel>> GetFaculty(Guid id)
   {
-    if (id is null)
-      return BadRequest(new { code = "EmptyId", error = "Plz provide a Id" });
+    try
+    {
+      FacultyModel? faculty = await _facultyService.GetFacultyByIdAsync(id);
 
-    FacultyModel? faculty = await _facultyService.GetFacultyByIdAsync(id);
+      if (faculty is null)
+        return BadRequest(new { code = "FacultyNotFound", error = "Faculty does not exist" });
 
-    if (faculty is null)
-      return BadRequest(new { code = "FacultyNotFound", error = "Faculty does not exist" });
-
-    return Ok(faculty);
+      return Ok(faculty);
+    }
+    catch (Exception)
+    {
+      return BadRequest(new { code = "ServerError", error = "Error occurred while finding the faculty" });
+    }
   }
 }

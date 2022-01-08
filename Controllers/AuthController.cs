@@ -17,7 +17,7 @@ public class AuthController : ControllerBase
   [Route("Signup")]
   public async Task<ActionResult> Signup(SignupDto dto)
   {
-    if (dto.Role != "Admin" && dto.Role != "Student" && dto.Role != "HeadOfDepartment" && dto.Role != "Dean" && dto.Role != "CourseAdviser" && dto.Role != "Teacher")
+    if (dto.Role != "Admin" && dto.Role != "Student" && dto.Role != "Hod" && dto.Role != "Dean" && dto.Role != "CourseAdviser" && dto.Role != "Teacher")
     {
       return BadRequest(new { code = "InvalidRole", error = "Role does not exists" });
     }
