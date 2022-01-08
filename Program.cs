@@ -10,6 +10,7 @@ builder.Services.AddDbContext<ApiContext>(options => options.UseSqlServer(builde
 // Dependency Injection
 builder.Services.AddScoped<IFaculty, IFacultyService>();
 builder.Services.AddScoped<INotification, INotificationService>();
+builder.Services.AddScoped<IDepartment, IDepartmentService>();
 
 // Identity Configration
 builder.Services.AddIdentityCore<UserModel>().AddRoles<IdentityRole>().AddEntityFrameworkStores<AuthContext>();
