@@ -81,13 +81,26 @@ public class DepartmentController : ControllerBase
 
   [HttpGet]
   [Route("GetDepartment/{department_id}")]
-  public async Task<ActionResult<DepartmentModel>> GetDepartment(Guid department_id)
+  public async Task<ActionResult<DepartmentModel>> GetDepartment(string department_id)
   {
-    DepartmentModel? department = await _departmentService.GetDepartmentByIdAsync(department_id);
+    try
+    {
+      Guid Id;
+      bool converted = Guid.TryParse(department_id, out Id);
 
-    if (department is null)
-      return BadRequest(new { code = "DepartmentNotFound", error = "Department is not found" });
+      if (!converted)
+        return BadRequest(new { code = "InvalidId", error = "Plz provide a valid Id" });
 
-    return Ok(department);
+      DepartmentModel? department = await _departmentService.GetDepartmentByIdAsync(Id);
+
+      if (department is null)
+        return BadRequest(new { code = "DepartmentNotFound", error = "Department is not found" });
+
+      return Ok(department);
+    }
+    catch (Exception)
+    {
+      return BadRequest(new { code = "ServerError", error = "Error occurred while finding the department" });
+    }
   }
 }
