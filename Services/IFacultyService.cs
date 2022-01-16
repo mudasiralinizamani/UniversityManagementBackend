@@ -38,4 +38,25 @@ public class IFacultyService : IFaculty
     ArgumentNullException.ThrowIfNull(name);
     return (await _context.faculties.FirstOrDefaultAsync(x => x.Name == name));
   }
+
+  public FacultyModel UpdateFacultyDean(FacultyModel faculty, UserModel dean)
+  {
+    ArgumentNullException.ThrowIfNull(faculty);
+    ArgumentNullException.ThrowIfNull(dean);
+
+    faculty.DeanId = dean.Id;
+    faculty.DeanName = dean.FullName;
+
+    return faculty;
+  }
+
+  public FacultyModel UpdateFacultyName(FacultyModel faculty, string name)
+  {
+    ArgumentNullException.ThrowIfNull(faculty);
+    ArgumentNullException.ThrowIfNull(name);
+
+    faculty.Name = name;
+
+    return faculty;
+  }
 }

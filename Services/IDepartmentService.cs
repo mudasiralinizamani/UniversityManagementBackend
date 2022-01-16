@@ -38,4 +38,17 @@ public class IDepartmentService : IDepartment
   {
     return (await _context.departments.ToListAsync());
   }
+
+  public async Task<IEnumerable<DepartmentModel>> GetFacultyDepartmentsAsync(string faculty_id)
+  {
+    ArgumentNullException.ThrowIfNull(faculty_id);
+
+    return (await _context.departments.Where(x => x.FacultyId == faculty_id).ToListAsync());
+  }
+
+  public DepartmentModel UpdateFacultyName(DepartmentModel department, string faculty_name)
+  {
+    department.FacultyName = faculty_name;
+    return department;
+  }
 }

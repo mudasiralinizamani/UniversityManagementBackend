@@ -7,4 +7,6 @@ public interface IDepartment
   Task<DepartmentModel?> GetDepartmentByIdAsync(Guid id);
   void DeleteDepartment(DepartmentModel model);
   Task<DepartmentModel?> GetDepartmentByNameAsync(string name);
+  Task<IEnumerable<DepartmentModel>> GetFacultyDepartmentsAsync(string faculty_id);
+  DepartmentModel UpdateFacultyName(DepartmentModel department, string faculty_name);
 }

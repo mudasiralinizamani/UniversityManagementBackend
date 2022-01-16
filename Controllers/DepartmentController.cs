@@ -103,4 +103,25 @@ public class DepartmentController : ControllerBase
       return BadRequest(new { code = "ServerError", error = "Error occurred while finding the department" });
     }
   }
+
+  [HttpGet]
+  [Route("GetFacultyDepartments/{faculty_id}")]
+  public async Task<ActionResult<IEnumerable<FacultyModel>>> GetFacultyDepartments(string faculty_id)
+  {
+    if (faculty_id is null)
+      return BadRequest(new { code = "EmptyId", error = "Plz provide a faculty id" });
+
+    Guid Id;
+    bool converted = Guid.TryParse(faculty_id, out Id);
+
+    if (!converted)
+      return BadRequest(new { code = "InvalidId", error = "Plz provide a valid id" });
+
+    FacultyModel? faculty = await _facultyService.GetFacultyByIdAsync(Id);
+
+    if (faculty is null)
+      return BadRequest(new { code = "FacultyNotFound", error = "Faculty is not found" });
+
+    return Ok(await _departmentService.GetFacultyDepartmentsAsync(faculty_id));
+  }
 }

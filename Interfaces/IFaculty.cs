@@ -7,4 +7,7 @@ public interface IFaculty
   Task<IEnumerable<FacultyModel>> GetFacultiesAsync();
   Task<FacultyModel?> GetFacultyByIdAsync(Guid id);
   void DeleteFaculty(FacultyModel model);
+
+  FacultyModel UpdateFacultyDean(FacultyModel faculty, UserModel dean);
+  FacultyModel UpdateFacultyName(FacultyModel faculty, string name);
 }
