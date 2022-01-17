@@ -11,6 +11,7 @@ builder.Services.AddDbContext<ApiContext>(options => options.UseSqlServer(builde
 builder.Services.AddScoped<IFaculty, IFacultyService>();
 builder.Services.AddScoped<INotification, INotificationService>();
 builder.Services.AddScoped<IDepartment, IDepartmentService>();
+builder.Services.AddScoped<ISubject, ISubjectService>();
 
 // Identity Configration
 builder.Services.AddIdentityCore<UserModel>().AddRoles<IdentityRole>().AddEntityFrameworkStores<AuthContext>();

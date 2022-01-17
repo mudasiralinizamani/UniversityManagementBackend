@@ -65,9 +65,8 @@ public class DepartmentController : ControllerBase
       await _notificationService.CreateNotificationAsync($"A new Department has been added to your faculty. {dto.Name}", faculty.DeanId, "info");
       return Ok(new { succeeded = true });
     }
-    catch (Exception e)
+    catch (Exception)
     {
-      Console.WriteLine(e);
       return BadRequest(new { code = "ServerError", error = "Error occurred while creating department" });
     }
   }
