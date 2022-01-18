@@ -8,4 +8,6 @@ public class SubjectModel
   public string DepartmentName { get; set; } = string.Empty;
   public string CourseAdviserId { get; set; } = string.Empty;
   public string CourseAdviserName { get; set; } = string.Empty;
+  public string TeacherId { get; set; } = string.Empty;
+  public string TeacherName { get; set; } = string.Empty;
 }

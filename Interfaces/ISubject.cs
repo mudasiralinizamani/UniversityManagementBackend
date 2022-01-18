@@ -7,4 +7,5 @@ public interface ISubject
   Task<SubjectModel?> GetSubjectByIdAsync(Guid id);
   void DeleteSubject(SubjectModel subject);
   Task<SubjectModel?> GetSubjectByNameAsync(string name);
+  Task<IEnumerable<SubjectModel>> GetDepartmentSubjects(string department_id);
 }

@@ -22,6 +22,13 @@ public class ISubjectService : ISubject
     _context.SaveChanges();
   }
 
+  public async Task<IEnumerable<SubjectModel>> GetDepartmentSubjects(string department_id)
+  {
+    ArgumentNullException.ThrowIfNull(department_id);
+
+    return (await _context.subjects.Where(x => x.DepartmentId == department_id).ToListAsync());
+  }
+
   public async Task<SubjectModel?> GetSubjectByIdAsync(Guid id)
   {
     ArgumentNullException.ThrowIfNull(id);
