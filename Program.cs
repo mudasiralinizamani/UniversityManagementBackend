@@ -13,20 +13,8 @@ builder.Services.AddScoped<INotification, INotificationService>();
 builder.Services.AddScoped<IDepartment, IDepartmentService>();
 builder.Services.AddScoped<ISubject, ISubjectService>();
 
-// Identity Configration
-builder.Services.AddIdentityCore<UserModel>().AddRoles<IdentityRole>().AddEntityFrameworkStores<AuthContext>();
 
-builder.Services.Configure<IdentityOptions>(opt =>
-{
-  opt.Password.RequireDigit = false;
-  opt.Password.RequireLowercase = false;
-  opt.Password.RequireUppercase = false;
-  opt.Password.RequireNonAlphanumeric = false;
-  opt.User.RequireUniqueEmail = true;
-}
-);
 
-builder.Services.AddCors();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

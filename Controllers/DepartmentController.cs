@@ -123,4 +123,77 @@ public class DepartmentController : ControllerBase
 
     return Ok(await _departmentService.GetFacultyDepartmentsAsync(faculty_id));
   }
+
+  [HttpPut]
+  [Route("UpdateHod")]
+  public async Task<ActionResult<object>> UpdateDepartmentHod(UpdateDepartmentHodDto dto)
+  {
+    bool converted = Guid.TryParse(dto.departmentId, out Guid Id);
+
+    if (!converted)
+      return BadRequest(new { code = "DepartmentNotFound", error = "Department is not found" });
+
+    DepartmentModel? department = await _departmentService.GetDepartmentByIdAsync(Id);
+
+    if (department is null)
+      return BadRequest(new { code = "DepartmentNotFound", error = "Department is not found" });
+
+    UserModel hod = await _userManager.FindByIdAsync(dto.newHodId);
+
+    if (hod is null)
+      return BadRequest(new { code = "HodNotFound", error = "User is not found" });
+    else if (hod.Id == dto.newHodId)
+      return BadRequest(new { code = "SameHod", error = "Cannot assign the same Hod" });
+    else if (hod.Role != "Hod")
+      return BadRequest(new { code = "UserNotHod", error = "User is not a Hod" });
+
+    try
+    {
+      _departmentService.UpdateDepartmentHod(department, hod);
+      await _notificationService.CreateNotificationAsync($"Congrats, A new department '{department.Name}' has been assigned to you", hod.Id, "success");
+      await _notificationService.CreateNotificationAsync($"Your department has been assigned to '{hod.FullName}'", department.HodId, "warning");
+      await _notificationService.CreateNotificationAsync($"Department '{department.Name}' has been assigned to {hod.FullName}", department.CourseAdviserId, "info");
+      return Ok(new { succeeded = true, department = department });
+    }
+    catch (Exception)
+    {
+      return BadRequest(new { code = "ServerError", error = "Error occurred while updating department hod" });
+    }
+  }
+
+  [HttpPut]
+  [Route("UpdateCourseAdviser")]
+  public async Task<ActionResult<object>> UpdateDepartmentCourseAdviser(UpdateDepartmentCourseAdviserDto dto)
+  {
+    bool couldParse = Guid.TryParse(dto.DepartmentId, out Guid Id);
+
+    if (!couldParse)
+      return BadRequest(new { code = "DepartmentNotFound", error = "Department is not found" });
+
+    DepartmentModel? department = await _departmentService.GetDepartmentByIdAsync(Id);
+
+    if (department is null)
+      return BadRequest(new { code = "DepartmentNotFound", error = "Department is not found" });
+
+    UserModel courseAdviser = await _userManager.FindByIdAsync(dto.NewCourseAdviserId);
+
+    if (courseAdviser is null)
+      return BadRequest(new { code = "CourseAdviserNotFound", error = "Course Adviser is not found" });
+    else if (courseAdviser.Id == dto.NewCourseAdviserId)
+      return BadRequest(new { code = "SameCourseAdviser", error = "Cannot assign same Course Adviser" });
+    else if (courseAdviser.Role != "CourseAdviser")
+      return BadRequest(new { code = "UserNotCourseAdvier", error = "User is not Course Adviser" });
+
+    try
+    {
+      _departmentService.UpdateCourseAdviser(department, courseAdviser);
+      await _notificationService.CreateNotificationAsync($"Congrats, A new department has been assigned to '{department.Name}'", courseAdviser.Id, "success");
+      // Send notifications
+      return Ok(new { succeeded = true, department = department });
+    }
+    catch (Exception)
+    {
+      return BadRequest(new { code = "ServerError", error = "Error occurred while updating department hod" });
+    }
+  }
 }

@@ -46,6 +46,28 @@ public class IDepartmentService : IDepartment
     return (await _context.departments.Where(x => x.FacultyId == faculty_id).ToListAsync());
   }
 
+  public DepartmentModel UpdateCourseAdviser(DepartmentModel department, UserModel courseAdviser)
+  {
+    ArgumentNullException.ThrowIfNull(department);
+    ArgumentNullException.ThrowIfNull(courseAdviser);
+
+    department.CourseAdviserId = courseAdviser.Id;
+    department.CourseAdviserName = courseAdviser.FullName;
+
+    return department;
+  }
+
+  public DepartmentModel UpdateDepartmentHod(DepartmentModel department, UserModel hod)
+  {
+    ArgumentNullException.ThrowIfNull(department);
+    ArgumentNullException.ThrowIfNull(hod);
+
+    department.HodId = hod.Id;
+    department.HodName = hod.FullName;
+
+    return department;
+  }
+
   public DepartmentModel UpdateFacultyName(DepartmentModel department, string faculty_name)
   {
     department.FacultyName = faculty_name;

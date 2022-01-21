@@ -9,4 +9,6 @@ public interface IDepartment
   Task<DepartmentModel?> GetDepartmentByNameAsync(string name);
   Task<IEnumerable<DepartmentModel>> GetFacultyDepartmentsAsync(string faculty_id);
   DepartmentModel UpdateFacultyName(DepartmentModel department, string faculty_name);
+  DepartmentModel UpdateDepartmentHod(DepartmentModel department, UserModel hod);
+  DepartmentModel UpdateCourseAdviser(DepartmentModel department, UserModel courseAdviser);
 }
